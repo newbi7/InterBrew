@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+
+    <Properties>
+        <Property name="logFileName">internbrewlocal</Property>
+<!--        <Property name="format-console"><![CDATA[%d{ISO8601_OFFSET_DATE_TIME_HH} [%-5level] #prcnum:%X{PRCNUM} (%F:%line)\t%msg %n]]></Property>-->
+<!--        <Property name="layoutPattern">![CDATA[%d{ISO8601_OFFSET_DATE_TIME_HH}{cyan} %highlight{[%-5p]}{FATAL=bg_red, ERROR=red,-->
+<!--            INFO=green, DEBUG=blue}  [%C] %style{[%t]}{yellow}- %m%n -</Property>-->
+<!--        <Property name="format-console"><![CDATA[%d{ISO8601_OFFSET_DATE_TIME_HH} [%-5level] #prcnum:%X{PRCNUM} (%F:%line)\t%msg %n]]></Property>-->
+        <Property name="format-console">%style{%d{yyyy-MM-dd HH:mm:ss,SSS}}{cyan} %highlight{[%-5p]}{FATAL=bg_red, ERROR=red,
+            INFO=green, DEBUG=blue}  [%C] %style{[%t]}{yellow}- (%F:%line)\t%msg %n -</Property>
+        <property name="pattern_layout" value="%d{yyyy-MM-d'T'HH:mm:ss.SSS}|%-5level| \\(%F:%line\\) |%msg%n " />
+    </Properties>
+
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${format-console}"/>
+        </Console>
+<!--        <RollingFile name="file" fileName="./logs/${logFileName}.log"-->
+<!--                     filePattern="logs/${logFileName}.%d{yyyy-MM-dd}.log">-->
+<!--            <PatternLayout pattern="${pattern_layout}"/>-->
+<!--            <Policies>-->
+<!--                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>&lt;!&ndash; 시간별 로그 파일 생성&ndash;&gt;-->
+<!--            </Policies>-->
+<!--            <DefaultRolloverStrategy max="5" fileIndex="min"/>&lt;!&ndash; 롤링 파일 5개 까지 생성 &ndash;&gt;-->
+<!--        </RollingFile>-->
+    </Appenders>
+
+    <Loggers>
+
+        <Root level="INFO" additivity="false">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="file"/>
+        </Root>
+
+        <Logger name="org.springframework.core" level="info" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Logger name="org.springframework.beans" level="info" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Logger name="org.springframework.context" level="info" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+        <Logger name="org.springframework.web" level="info" additivity="false">
+            <AppenderRef ref="console"/>
+        </Logger>
+
+        <!-- 스프링 프레임워크에서 찍는건 level을 info로 설정 -->
+        <logger name="org.springframework" level="info" additivity="false">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="file"/>
+        </logger>
+
+        <!-- rolling file에는 debug, console에는 info 분리하여 처리 가능하다. -->
+        <logger name="com.toyproject.internbrew_backend" additivity="false">
+            <AppenderRef ref="console" level="info"/>
+            <AppenderRef ref="file" level="debug"/>
+        </logger>
+
+    </Loggers>
+</Configuration>
